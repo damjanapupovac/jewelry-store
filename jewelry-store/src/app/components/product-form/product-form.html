@@ -1,0 +1,32 @@
+<h2>Add new product</h2>
+<form #productForm="ngForm" (ngSubmit)="addProduct()">
+  <label>Name:</label>
+  <input [(ngModel)]="newProduct.name" name="name" required minlength="3" #name="ngModel" />
+  <div *ngIf="name.invalid && name.touched" class="error">
+    <small *ngIf="name.errors?.['required']">Name is required.</small>
+    <small *ngIf="name.errors?.['minlength']">Name must be at least 3 characters long.</small>
+  </div>
+
+  <label>Description:</label>
+  <input [(ngModel)]="newProduct.description" name="description" required minlength="5" #description="ngModel" />
+  <div *ngIf="description.invalid && description.touched" class="error">
+    <small *ngIf="description.errors?.['required']">Description is required.</small>
+    <small *ngIf="description.errors?.['minlength']">Description must be at least 5 characters long.</small>
+  </div>
+
+  <label>Price:</label>
+  <input type="number" [(ngModel)]="newProduct.price" name="price" required min="1" #price="ngModel" />
+  <div *ngIf="price.invalid && price.touched" class="error">
+    <small *ngIf="price.errors?.['required']">Price is required.</small>
+    <small *ngIf="price.errors?.['min']">Price must be greater than 0.</small>
+  </div>
+
+  <label>Category:</label>
+  <input [(ngModel)]="newProduct.category" name="category" required minlength="3" #category="ngModel" />
+  <div *ngIf="category.invalid && category.touched" class="error">
+    <small *ngIf="category.errors?.['required']">Category is required.</small>
+    <small *ngIf="category.errors?.['minlength']">Category must be at least 3 characters long.</small>
+  </div>
+
+  <button type="submit" [disabled]="productForm.invalid">Add</button>
+</form>

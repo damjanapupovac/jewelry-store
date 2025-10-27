@@ -1,7 +1,14 @@
 <h2>Lista proizvoda</h2>
-<ul>
+
+<a routerLink="/add">Add new product</a>
+
+<ul *ngIf="products.length > 0; else noProducts">
   <li *ngFor="let product of products">
-    <strong>{{ product.name }}</strong> - {{ product.price }} RSD<br>
-    <em>{{ product.description }}</em> ({{ product.category }})
+    {{ product.name }} - {{ product.price }} RSD
   </li>
 </ul>
+
+<ng-template #noProducts>
+  <p style="font-style: italic; color: gray;">No products to show.</p>
+</ng-template>
+
