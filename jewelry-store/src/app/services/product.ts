@@ -14,7 +14,7 @@ export interface Product {
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'https://localhost:5001/api/products';
+  private apiUrl = 'https://localhost:5201/api/products';
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ export class ProductService {
     return this.http.get<Product[]>(this.apiUrl);
   }
 
-  addProduct(product: Product): Observable<Product> {
+  addProduct(product: Omit<Product, 'id'>): Observable<Product> {
     return this.http.post<Product>(this.apiUrl, product);
   }
 

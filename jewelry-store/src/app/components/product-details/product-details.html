@@ -1,0 +1,10 @@
+<div *ngIf="product; else loading">
+  <h2>{{ product?.name }}</h2>
+  <p><strong>Opis:</strong> {{ product?.description }}</p>
+  <p><strong>Cena:</strong> {{ product?.price | currency }}</p>
+  <p><strong>Kategorija:</strong> {{ product?.category }}</p>
+</div>
+
+<ng-template #loading>
+  <p>Učitavanje detalja proizvoda...</p>
+</ng-template>

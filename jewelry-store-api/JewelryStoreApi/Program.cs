@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using JewelryStoreApi.Data;
+using JewelryStoreApi.Models;
+using JewelryStoreApi.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +18,6 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
-
-app.UseCors("AllowAngular");
 
 var app = builder.Build();
 
