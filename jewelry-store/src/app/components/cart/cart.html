@@ -1,0 +1,48 @@
+<div
+  class="min-vh-100 d-flex align-items-center justify-content-center"
+  style="
+    background-image: url('assets/img/background.png');
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    background-position: center;
+    z-index: 0;
+    position: relative;
+  "
+>
+  <div
+    class="bg-white p-4 shadow-lg rounded border-radius-lg"
+    style="width: 100%; max-width: 800px;"
+  >
+    <h2 class="text-pink mb-4 text-center">Your Cart</h2>
+
+    <div *ngIf="cartItems.length === 0" class="alert alert-info text-center">
+      <em style="color: gray;">Your cart is empty.</em>
+    </div>
+
+    <div *ngIf="cartItems.length > 0">
+      <div class="list-group mb-4">
+        <div
+          *ngFor="let item of cartItems"
+          class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
+        >
+          <div>
+            <h5 class="mb-1 text-pink">{{ item.product.name }}</h5>
+            <small class="text-muted">Quantity: {{ item.quantity }}</small>
+          </div>
+          <div class="text-end">
+            <p class="mb-1"><strong>{{ item.product.price * item.quantity | currency }}</strong></p>
+            <button class="btn btn-outline-danger btn-sm" (click)="removeItem(item.product.id)">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <h5 class="text-pink">Total: {{ getTotalPrice() | currency }}</h5>
+        <div class="btn-group mt-2 mt-md-0">
+          <button class="btn btn-outline-secondary" (click)="clearCart()">Clear Cart</button>
+          <button class="btn btn-pink-gradient" (click)="checkout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

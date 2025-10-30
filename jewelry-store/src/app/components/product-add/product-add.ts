@@ -11,18 +11,36 @@ import { ProductFormComponent } from '../product-form/product-form';
   selector: 'app-product-add',
   standalone: true,
   imports: [CommonModule, FormsModule, ProductFormComponent],
-  template:'<div class="container mt-4"><h2>Add new product</h2><app-product-form (submitProduct)="handleSubmit($event)" /></div>'
+  templateUrl:'./product-add.html',
+  styleUrls: ['./product-add.css']
+  //template: `<p style="color: blue;">AddProductComponent is working</p>`
 })
-export class AddProductComponent {
+
+export class ProductAddComponent {
+  product: Omit<Product, 'id'> = {
+  name: '',
+  description: '',
+  price: 0,
+  category: '',
+  imageUrl: ''
+};
   constructor(private productService: ProductService, private router: Router, private toast: ToastService) {}
 
   handleSubmit(product: Partial<Product>): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.toast.show('You must be logged in to add products');
+      return;
+    }
     this.productService.addProduct(product as Omit<Product, 'id'>).subscribe({
       next: () => {
         this.toast.show('Product added');
         this.router.navigate(['/']);
       },
-      error: (err) => console.error('Error during add:', err)
+      error: (err) => {
+        console.error('Error during add:', err);
+        this.toast.show('Failed to add product');
+      }
     });
   }
 }

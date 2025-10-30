@@ -1,23 +1,46 @@
-<div class="container mt-4">
+<div
+  class="container mt-4"
+  style="
+    background-image: url('assets/img/background.png');
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    background-position: center;
+    z-index: 0;
+    position: relative;
+  "
+>
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>List of products</h2>
-    <a routerLink="/add" class="btn btn-success">Add new product</a>
+    <h2 class="text-pink">Products</h2>
   </div>
 
   <div *ngIf="products.length > 0; else noProducts">
     <div class="row">
       <div class="col-md-4 mb-4" *ngFor="let product of products">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
+        <div class="card h-100 shadow-sm border-radius-lg">
+          <img
+            [src]="product.imageUrl"
+            class="card-img-top"
+            alt="{{ product.name }}"
+            style="max-height: 200px; object-fit: cover;"
+          />
+          <div class="card-body text-center">
+            <h5 class="card-title text-pink">{{ product.name }}</h5>
             <p class="card-text">{{ product.description }}</p>
-            <p class="card-text"><strong>Price:</strong> {{ product.price | currency }}</p>
-            <p class="card-text"><strong>Category:</strong> {{ product.category }}</p>
+            <p class="text-muted mb-1"><strong>Category:</strong> {{ product.category }}</p>
+            <p class="text-pink fw-bold"><strong>{{ product.price | currency }}</strong></p>
           </div>
-          <div class="card-footer d-flex justify-content-between">
-            <a [routerLink]="['/products', product.id]" class="btn btn-primary">Details</a>
-            <a [routerLink]="['/edit', product.id]" class="btn btn-warning">Edit</a>
-            <button class="btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
+
+          <div class="card-footer d-flex flex-wrap justify-content-between gap-2">
+            <a [routerLink]="['/products', product.id]" class="btn btn-outline-primaryy btn-sm">Details</a>
+
+            <ng-container *ngIf="auth.isAdmin()">
+              <a [routerLink]="['/edit', product.id]" class="btn btn-outline-warningg btn-sm">Edit</a>
+              <button class="btn bg-gradient-pink btn-sm" (click)="deleteProduct(product.id)">Delete</button>
+            </ng-container>
+
+            <ng-container *ngIf="auth.isUser()">
+              <button class="btn bg-gradient-pink btn-sm" (click)="addToCart(product)">Add to Cart</button>
+            </ng-container>
           </div>
         </div>
       </div>

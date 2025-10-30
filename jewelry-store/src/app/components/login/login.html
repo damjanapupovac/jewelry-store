@@ -1,0 +1,41 @@
+<div
+  class="min-vh-100 d-flex align-items-center justify-content-center"
+  style="
+    background-image: url('assets/img/background.png');
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    background-position: center;
+    z-index: 0;
+    position: relative;
+  "
+>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7">
+        <div class="card card-plain shadow-lg border-radius-lg" style="background-color: white; z-index: 1;">
+          <div class="card-header pb-0 text-left bg-transparent">
+            <h3 class="font-weight-bolder text-pink text-gradient">Login</h3>
+            <p class="mb-0">Welcome back! Enter your credentials</p>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="login()" #form="ngForm">
+              <div class="mb-3">
+                <input type="text" name="username" [(ngModel)]="username" required class="form-control" placeholder="Username" />
+              </div>
+              <div class="mb-3">
+                <input type="password" name="password" [(ngModel)]="password" required minlength="6" class="form-control" placeholder="Password" />
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn bg-gradient-pink w-100 mt-4 mb-0" [disabled]="form.invalid">Login</button>
+              </div>
+              <p class="text-sm mt-3 mb-0 text-center">
+                Don't have an account?
+                <a routerLink="/register" class="text-pink font-weight-bold">Register</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

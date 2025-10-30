@@ -1,39 +1,67 @@
-<form (ngSubmit)="onSubmit()" #form="ngForm">
-  <div class="mb-3">
-    <label for="name" class="form-label">Name</label>
-    <input type="text" id="name" class="form-control" [(ngModel)]="product.name" name="name" required minlength="3" #name="ngModel">
-    <div *ngIf="name.invalid && name.touched" class="text-danger mt-1">
-      <div *ngIf="name.errors?.['required']">Name is required.</div>
-      <div *ngIf="name.errors?.['minlength']">Name must be at least 3 characters long.</div>
-    </div>
+<div
+  class="card shadow-lg border-radius-xl p-4"
+  style="
+    width: 100%;
+    max-width: 1000px;
+    background-color: white;
+    z-index: 1;
+  "
+>
+  <div class="card-header text-center bg-transparent mb-4">
+    <h3 class="font-weight-bolder text-pink text-gradient">Add Product</h3>
+    <p class="mb-0">Fill in the product details below</p>
   </div>
 
-  <div class="mb-3">
-    <label for="description" class="form-label">Description</label>
-    <textarea id="description" class="form-control" [(ngModel)]="product.description" name="description" required minlength="5" #description="ngModel"></textarea>
-    <div *ngIf="name.invalid && name.touched" class="text-danger mt-1">
-      <div *ngIf="name.errors?.['required']">Description is required.</div>
-      <div *ngIf="name.errors?.['minlength']">Description must be at least 5 characters long.</div>
-    </div>
-  </div>
+  <form (ngSubmit)="onSubmit()" #form="ngForm">
+    <div class="row justify-content-center">
+      <div class="col-md-6 mb-3 d-flex flex-column align-items-center">
+        <label class="mb-1">Name</label>
+        <input type="text" name="name" [(ngModel)]="product.name" required minlength="3" #name="ngModel" class="form-control w-100" />
+        <div *ngIf="name.invalid && name.touched" class="text-danger mt-1 text-start w-100">
+          <small *ngIf="name.errors?.['required']">Name is required.</small>
+          <small *ngIf="name.errors?.['minlength']">Minimum 3 characters.</small>
+        </div>
+      </div>
 
-  <div class="mb-3">
-    <label for="price" class="form-label">Price</label>
-    <input type="number" id="price" class="form-control" [(ngModel)]="product.price" name="price" required min="1" #price="ngModel">
-    <div *ngIf="price.invalid && price.touched" class="text-danger mt-1">
-      <div *ngIf="price.errors?.['required']">Price is required.</div>
-      <div *ngIf="price.errors?.['min']">Price must be greater than 0.</div>
-    </div>
-  </div>
+      <div class="col-md-6 mb-3 d-flex flex-column align-items-center">
+        <label class="mb-1">Category</label>
+        <input type="text" name="category" [(ngModel)]="product.category" required minlength="3" #category="ngModel" class="form-control w-100" />
+        <div *ngIf="category.invalid && category.touched" class="text-danger mt-1 text-start w-100">
+          <small *ngIf="category.errors?.['required']">Category is required.</small>
+          <small *ngIf="category.errors?.['minlength']">Minimum 3 characters.</small>
+        </div>
+      </div>
 
-  <div class="mb-3">
-    <label for="category" class="form-label">Category</label>
-    <input type="text" id="category" class="form-control" [(ngModel)]="product.category" name="category" required minlength="3" #category="ngModel">
-    <div *ngIf="name.invalid && name.touched" class="text-danger mt-1">
-      <div *ngIf="name.errors?.['required']">Category is required.</div>
-      <div *ngIf="name.errors?.['minlength']">Category must be at least 3 characters long.</div>
-    </div>
-  </div>
+      <div class="col-md-12 mb-3 d-flex flex-column align-items-center">
+        <label class="mb-1">Description</label>
+        <textarea name="description" [(ngModel)]="product.description" required minlength="5" #description="ngModel" class="form-control w-100"></textarea>
+        <div *ngIf="description.invalid && description.touched" class="text-danger mt-1 text-start w-100">
+          <small *ngIf="description.errors?.['required']">Description is required.</small>
+          <small *ngIf="description.errors?.['minlength']">Minimum 5 characters.</small>
+        </div>
+      </div>
 
-  <button type="submit" class="btn btn-success" [disabled]="form.invalid">Save</button>
-</form>
+      <div class="col-md-6 mb-3 d-flex flex-column align-items-center">
+        <label class="mb-1">Price</label>
+        <input type="number" name="price" [(ngModel)]="product.price" required min="1" #price="ngModel" class="form-control w-100" />
+        <div *ngIf="price.invalid && price.touched" class="text-danger mt-1 text-start w-100">
+          <small *ngIf="price.errors?.['required']">Price is required.</small>
+          <small *ngIf="price.errors?.['min']">Must be greater than 0.</small>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3 d-flex flex-column align-items-center">
+        <label class="mb-1">Image</label>
+        <input type="file" (change)="onFileSelected($event)" class="form-control w-100" />
+      </div>
+
+      <div *ngIf="product.imageUrl" class="col-md-12 mb-3 text-center">
+        <img [src]="product.imageUrl" alt="Preview" class="img-fluid rounded" style="max-height: 200px;" />
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button type="submit" class="btn bg-gradient-pink w-50" [disabled]="form.invalid">Save Product</button>
+    </div>
+  </form>
+</div>

@@ -15,12 +15,23 @@ export class ProductFormComponent {
     name: '',
     description: '',
     price: 0,
-    category: ''
+    category: '',
+    imageUrl: ''
   };
 
   @Output() submitProduct = new EventEmitter<Partial<Product>>();
 
   onSubmit(): void {
     this.submitProduct.emit(this.product);
+  }
+
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.product.imageUrl = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 }

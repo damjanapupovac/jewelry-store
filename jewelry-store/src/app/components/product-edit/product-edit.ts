@@ -1,61 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ProductService, Product } from '../../services/product';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService } from '../../services/product';
+import { Product } from '../../models/product.model';
 import { ToastService } from '../../services/toast';
 import { ProductFormComponent } from '../product-form/product-form';
 
 @Component({
   selector: 'app-product-edit',
   standalone: true,
-  imports: [CommonModule, ProductFormComponent],
-  template: `
-  <div class="container mt-4">
-    <h2>Edit product</h2>
-    <div *ngIf="loading" class="text-muted">Loading...</div>
-    <div *ngIf="notFound" class="alert alert-danger">
-      Product not found or error.
-    </div>
-    <app-product-form *ngIf="!loading && product" [product]="product" (submitProduct)="handleSubmit($event)"/>
-  </div>`
+  imports: [CommonModule, FormsModule, ProductFormComponent],
+  templateUrl: './product-edit.html',
+  styleUrls: ['./product-edit.css']
 })
 export class ProductEditComponent implements OnInit {
-  product: Product | null = null;
-  loading = true;
-  notFound = false;
+  product: Partial<Product> = {};
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService,
     private router: Router,
+    private productService: ProductService,
     private toast: ToastService
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.productService.getProductById(id).subscribe({
-      next: (data) => {
-        this.product = data;
-        this.loading=false;
-      },
-      error: (err) => {
-        console.error('Error during load: ', err);
-        this.notFound=true;
-        this.loading=false;
-      }
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.productService.getProductById(+id).subscribe({
+        next: (data) => this.product = data,
+        error: (err) => {
+          console.error('Failed to load product:', err);
+          this.toast.show('Failed to load product');
+        }
+      });
+    }
   }
 
-  handleSubmit(updated: Partial<Product>): void {
-    if (!this.product) return;
-    const finalProduct = { ...this.product, ...updated };
-    this.productService.updateProduct(this.product).subscribe({
+  handleSubmit(updatedProduct: Partial<Product>): void {
+    if (!updatedProduct.id) {
+      this.toast.show('Product ID missing');
+      return;
+    }
+
+    this.productService.updateProduct(updatedProduct as Product).subscribe({
       next: () => {
         this.toast.show('Product updated');
         this.router.navigate(['/']);
       },
-      error: (err) => console.error('Error during load: ', err)
+      error: (err) => {
+        console.error('Update failed:', err);
+        this.toast.show('Failed to update product');
+      }
     });
   }
 }

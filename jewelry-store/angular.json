@@ -19,13 +19,19 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/favicon.ico",
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/nucleo-icons.css",
+              "src/assets/css/nucleo-svg.css",
+              "src/assets/css/soft-ui-dashboard.css",
+              "src/assets/css/soft-ui-dashboard.min.css"
             ]
           },
           "configurations": {
@@ -33,8 +39,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1.2MB",
+                  "maximumError": "1.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -59,7 +65,8 @@
               "buildTarget": "jewelry-store:build:production"
             },
             "development": {
-              "buildTarget": "jewelry-store:build:development"
+              "buildTarget": "jewelry-store:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -76,14 +83,21 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
+              "src/favicon.ico",
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/nucleo-icons.css",
+              "src/assets/css/nucleo-svg.css",
+              "src/assets/css/soft-ui-dashboard.css",
+              "src/assets/css/soft-ui-dashboard.min.css"
             ]
+
           }
         }
       }
